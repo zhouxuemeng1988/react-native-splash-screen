@@ -1,8 +1,10 @@
 package com.cboy.rn.splashscreen;
+
 import android.app.Activity;
 import android.app.Dialog;
 
 import java.lang.ref.WeakReference;
+
 /**
  * SplashScreen
  * 启动屏
@@ -18,7 +20,7 @@ public class SplashScreen {
     /**
      * 打开启动屏
      */
-    public static void show(final Activity activity,final boolean fullScreen) {
+    public static void show(final Activity activity, final boolean fullScreen, final boolean useScreenArt) {
         if (activity == null) return;
         mActivity = new WeakReference<Activity>(activity);
         activity.runOnUiThread(new Runnable() {
@@ -26,8 +28,8 @@ public class SplashScreen {
             public void run() {
                 if (!activity.isFinishing()) {
 
-                    mSplashDialog = new Dialog(activity,fullScreen? R.style.SplashScreen_Fullscreen:R.style.SplashScreen_SplashTheme);
-                    mSplashDialog.setContentView(R.layout.launch_screen);
+                    mSplashDialog = new Dialog(activity, fullScreen ? R.style.SplashScreen_Fullscreen : R.style.SplashScreen_SplashTheme);
+                    mSplashDialog.setContentView(useScreenArt ? R.layout.launch_screen_art : R.layout.launch_screen);
                     mSplashDialog.setCancelable(false);
 
                     if (!mSplashDialog.isShowing()) {
@@ -37,11 +39,19 @@ public class SplashScreen {
             }
         });
     }
+
     /**
      * 打开启动屏
      */
     public static void show(final Activity activity) {
-        show(activity,false);
+        show(activity, false);
+    }
+
+    /**
+     * 打开启动屏
+     */
+    public static void show(final Activity activity, boolean useScreenArt) {
+        show(activity, false, useScreenArt);
     }
 
     /**
